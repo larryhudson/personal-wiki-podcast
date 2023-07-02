@@ -1,4 +1,22 @@
 ---
+import {getSectionsByWikiIdAndIndex} from "@src/utils/wikipedia";
+import {addSectionsToQueue} from "wikipedia";
+
+if (Astro.request.method === "POST") {
+	const formData = await Astro.request.formData();
+	// handle adding stuff to queue
+	const wikiPageId = formData.get('article_wiki_id');
+	const sectionIndices = formData.getAll('section_index').map(str => parseInt(str));
+	console.log({sectionIndices});
+
+	// here we have article wiki id and section indexes to save.
+	const sectionsToSave = await getSectionsByWikiIdAndIndex({wikiPageId, sectionIndices});
+	console.log({sectionsToSave});
+	// we need to save them to DB
+	// addSectionsToQueue(sectionsToSave);
+	// then create a queue item for each
+	
+}
 // TODO: look up queue items from the database
 ---
 

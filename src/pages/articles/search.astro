@@ -1,12 +1,30 @@
 ---
+import {getWikiSearchResults} from "@src/utils/wikipedia";
+import Dump from "@src/components/Dump.astro";
+
 const searchQuery = Astro.url.searchParams.get('q');
+
 
 let searchResults;
 if (searchQuery) {
   // TODO: implement search here
+  searchResults = await getWikiSearchResults(searchQuery);
 }
+
+
 ---
 
 <h1>Article search</h1>
+
+<form>
+  <label for="search-input">Search</label>
+  <input name="q" id="search-input" value={searchQuery} />
+  <button>Search</button>
+<ul>
+  {searchResults.map(page => (
+  <li><a href={`/articles/wiki/${page.pageid}/`}>{page.title}</a></li>
+  ))}
+</ul>
+<Dump data={searchResults} />
 
 <p>TODO: search results go here.</p>

@@ -1,13 +1,19 @@
 ---
-const topicId = Astro.params.topicId;
+import Dump from "@src/components/Dump.astro";
+import {getTopicById} from "@src/utils/db";
 
-// TODO: lookup the topic data here.
+const topicId = Astro.params.topicId;
+const topic = getTopicById(topicId);
 ---
 
-<h1>Topic</h1>
+<h1>Topic: {topic.title}</h1>
 
-<p>TODO: topic data goes here.</p>
+<form action="/articles/search/">
+	<button name="q" value={topic.title}>Jump to article search</button>
+</form>
 
-<h2>Articles</h2>
+<Dump data={topic} />
 
-<p>TODO: search for wiki articles here.</p>
+<h2>Episodes</h2>
+
+<p>TODO: show list of episodes related to topic here.</p>

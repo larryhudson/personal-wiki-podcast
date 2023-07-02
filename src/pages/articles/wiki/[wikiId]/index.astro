@@ -1,0 +1,65 @@
+---
+import {getWikiPageSections} from "@src/utils/wikipedia";
+import Dump from "../../../../components/Dump.astro";
+
+const wikiPageId = Astro.params.wikiId;
+const {pageSections, totalCostEstimateAud} = await getWikiPageSections(wikiPageId);
+---
+
+<h1>Article</h1>
+<p>Total cost estimate: ${totalCostEstimateAud}</p>
+
+<h2>Add sections to queue</h2>
+
+<form method="POST" action="/queue">
+	<button type="button" id="select-all-button">Select all</button>
+	<button type="button" id="deselect-all-button">Deselect all</button>
+
+	<div class="checkboxes">
+	{pageSections.map((section, index) => (
+	<div>
+	<input type="checkbox" checked="" id={`section-checkbox-${index}`} name="section_index" value={index} />
+	<label for={`section-checkbox-${index}`}>{section.headingTag} {section.title} ${section.costEstimateAud}</label> 
+	</div>
+	))}
+	</div>
+
+	<input type="hidden" name="article_wiki_id" value={wikiPageId} /> 
+
+	<button>Add to queue</button>
+</form>
+
+
+<h1>Page content</h1>
+{pageSections.map(section => (
+<div set:html={section.content} />
+))}
+
+<Dump data={pageSections} />
+
+<style>
+	.checkboxes {
+		max-height: 200px;
+		overflow-y: auto;
+		width: 300px;
+		border: 1px solid black;
+	}
+</style>
+
+<script>
+	const sectionCheckboxes = document.querySelectorAll('input[type="checkbox"]');
+
+	const selectAllButton = document.querySelector('#select-all-button');
+	selectAllButton.addEventListener('click', function() {
+		sectionCheckboxes.forEach(checkbox => {
+			checkbox.setAttribute('checked', '');
+		})
+	})
+
+	const deselectAllButton = document.querySelector('#deselect-all-button');
+	deselectAllButton.addEventListener('click', function() {
+		sectionCheckboxes.forEach(checkbox => {
+			checkbox.removeAttribute('checked');
+		})
+	})
+</script>

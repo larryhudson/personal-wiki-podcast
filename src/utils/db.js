@@ -1,6 +1,8 @@
 import Database from 'better-sqlite3';
+import path from "path";
 
-const db = new Database('personal-wiki-podcast.db');
+const dbPath = path.resolve("personal-wiki-podcast.db");
+const db = new Database(dbPath);
 
 // Function to create a new topic
 export function createTopic({ title }) {
@@ -97,3 +99,43 @@ export function updateTopic({ id, title }) {
   return statement.run(title, id);
 }
 
+// Function to get a topic by ID
+export function getTopicById(id) {
+  const statement = db.prepare('SELECT * FROM topics WHERE id = ?');
+  return statement.get(id);
+}
+
+// Function to get an article by ID
+export function getArticleById(id) {
+  const statement = db.prepare('SELECT * FROM articles WHERE id = ?');
+  return statement.get(id);
+}
+
+// Function to get an article section by ID
+export function getArticleSectionById(id) {
+  const statement = db.prepare('SELECT * FROM article_sections WHERE id = ?');
+  return statement.get(id);
+}
+
+// Function to get a queue item by ID
+export function getQueueItemById(id) {
+  const statement = db.prepare('SELECT * FROM queue_items WHERE id = ?');
+  return statement.get(id);
+}
+
+// Function to get an episode by ID
+export function getEpisodeById(id) {
+  const statement = db.prepare('SELECT * FROM episodes WHERE id = ?');
+  return statement.get(id);
+}
+
+// Function to get an episode chapter by ID
+export function getEpisodeChapterById(id) {
+  const statement = db.prepare('SELECT * FROM episode_chapters WHERE id = ?');
+  return statement.get(id);
+}
+
+export function addSectionsToQueue({sectionsToSave}) {
+  // add each section to the 'article_sections' table
+  // add each new article section to the queue
+}

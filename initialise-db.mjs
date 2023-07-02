@@ -1,8 +1,7 @@
 import Database from "better-sqlite3";
-import fs from "fs";
 import path from "path";
 
-const dbPath = path.resolve("articles.db");
+const dbPath = path.resolve("personal-wiki-podcast.db");
 
 const db = new Database(dbPath, {
   verbose: console.log,

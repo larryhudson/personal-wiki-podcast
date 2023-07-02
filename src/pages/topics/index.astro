@@ -1,8 +1,11 @@
 ---
+import {createTopic} from "../../utils/db";
+
 if (Astro.request.method === 'POST') {
 	const formData = await Astro.request.formData();
-	const topicTitle = formData.get('title');
-
+	const title = formData.get('title');
+	const newTopicId = createTopic({title});
+	return Astro.redirect(`/topics/${newTopicId}/`);
 	// TODO: create the topic here. redirect to the new topic page after.
 }
 ---
