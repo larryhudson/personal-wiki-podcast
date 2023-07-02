@@ -1,0 +1,42 @@
+topics table
+	id (integer, autoincrement)
+	title (string, required)
+
+articles table
+	id (integer, autoincrement)
+	title (string, required)
+	wikipedia_url (string, required)
+
+article_sections table
+	id (integer, autoincrement)
+	title (string, required)
+	article_id (integer, required, related to articles table)
+	html_content (text, required)
+	script (text, required)
+
+queue_items table
+	id (integer)
+	article_section_id (integer, required, related to article_sections table)
+	topic_id (integer, required, related to topics table)
+	queue_position (float, required)
+
+episodes table
+	id (integer, autoincrement) 
+	title (string, required)
+	topic_id (string, required, related to topics table)
+	html_description (text)
+	publish_date (date, can be null)
+	is_processed (boolean, default no)
+	mp3_url (string, can be null)
+	mp3_duration (string, can be null)
+	mp3_bytes_length (integer, can be null)
+
+episode_chapters table
+	id (integer, autoincrement)
+	title (string, required)
+	episode_id (integer, required, related to episodes table)
+	article_section_id (integer, required, related to article_sections table)
+	is_processed (boolean, default no)
+	mp3_url (string, can be null)
+	mp3_duration (string, can be null)
+	mp3_bytes_length ( integer, can be null)

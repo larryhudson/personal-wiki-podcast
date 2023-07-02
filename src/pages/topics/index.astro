@@ -1,0 +1,13 @@
+---
+if (Astro.request.method === 'POST') {
+	const formData = await Astro.request.formData();
+	const topicTitle = formData.get('title');
+
+	// TODO: create the topic here. redirect to the new topic page after.
+}
+---
+
+<h1>Topics</h1>
+<p>TODO: index page</p>
+
+<p>TODO: create new topic here.<p>
